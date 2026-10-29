@@ -1,0 +1,99 @@
+    address: Address;
+    shippingAddress: Address;
+    discounts: ConsignmentDiscount[];
+    handlingCost: number;
+    shippingCost: number;
+    availableShippingOptions?: ShippingOption[];
+    selectedShippingOption?: ShippingOption;
+    selectedPickupOption?: ConsignmentPickupOption;
+    lineItemIds: string[];
+    comparisonShippingCost: number;
+    shippingCostBeforeDiscount: number;
+}
+
+declare interface ConsignmentAssignmentBaseRequestBodyWithAddress {
+    address: AddressRequestBody;
+    lineItems: ConsignmentLineItem[];
+    pickupOption?: ConsignmentPickupOption;
+}
+
+declare interface ConsignmentAssignmentBaseRequestBodyWithShippingAddress {
+    shippingAddress: AddressRequestBody;
+    lineItems: ConsignmentLineItem[];
+    pickupOption?: ConsignmentPickupOption;
+}
+
+declare type ConsignmentAssignmentRequestBody = ConsignmentAssignmentBaseRequestBodyWithShippingAddress | ConsignmentAssignmentBaseRequestBodyWithAddress;
+
+declare type ConsignmentAutomaticDiscount = ConsignmentDiscountBase<'AUTOMATIC'>;
+
+declare interface ConsignmentCouponDiscount extends ConsignmentDiscountBase<'COUPON'> {
+    couponId: number;
+    couponCode: string;
+}
+
+declare interface ConsignmentCreateRequestBody {
+    address?: AddressRequestBody;
+    shippingAddress?: AddressRequestBody;
+    lineItems: ConsignmentLineItem[];
+    pickupOption?: ConsignmentPickupOption;
+}
+
+declare type ConsignmentDiscount = ConsignmentAutomaticDiscount | ConsignmentCouponDiscount;
+
+declare interface ConsignmentDiscountBase<T> {
+    id: number;
+    amount: number;
+    type: T;
+-----
+
+declare interface ConsignmentUpdateRequestBody {
+    id: string;
+    address?: AddressRequestBody;
+    shippingAddress?: AddressRequestBody;
+    lineItems?: ConsignmentLineItem[];
+    pickupOption?: ConsignmentPickupOption;
+    shippingOptionId?: string;
+}
+
+declare interface ContextConfig {
+    checkoutId?: string;
+    geoCountryCode: string;
+-----
+    displayName: string;
+    collectionInstructions: string;
+    collectionTimeDescription: string;
+}
+
+declare interface PickupOptionRequestBody {
+    searchArea: SearchArea;
+    consignmentId: string;
+}
+
+declare interface PickupOptionResult {
+    options: Option_2[];
+}
+
+declare interface PickupOptionSelector {
+    getPickupOptions(consignmentId: string, searchArea: SearchArea): PickupOptionResult[] | undefined;
+    getLoadError(): Error | undefined;
+    isLoading(): boolean;
+}
+-----
+
+declare interface ReRenderShippingStep {
+    type: ExtensionCommandType.ReRenderShippingStep;
+}
+
+declare interface SearchArea {
+    radius: Radius;
+    coordinates: Coordinates;
+}
+
+declare type SearchCompanyAddressesQuery = {
+    customer?: {
+        activeCompany?: {
+            addresses: {
+                edges?: Array<{
+                    node: {
+                        entityId: number;

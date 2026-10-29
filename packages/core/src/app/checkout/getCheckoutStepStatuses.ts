@@ -201,10 +201,9 @@ const getShippingStepStatus = createSelector(
     },
     ({ data }: CheckoutSelectors) => data.getConfig(),
     (shippingAddress, consignments, cart, shippingAddressFields, config) => {
-        const hasAddress = shippingAddress
-            ? isValidAddress(shippingAddress, shippingAddressFields, true)
-            : false;
-        const hasOptions = consignments ? hasSelectedShippingOptions(consignments) : false;
+        const isPickup = !!consignments && consignments.length > 0 && consignments.every(({ selectedPickupOption }) => !!selectedPickupOption);
+        const hasAddress = isPickup || (shippingAddress ? isValidAddress(shippingAddress, shippingAddressFields, true) : false);
+        const hasOptions = isPickup || (consignments ? hasSelectedShippingOptions(consignments) : false);
         const hasUnassignedItems =
             cart && consignments ? hasUnassignedLineItems(consignments, cart.lineItems) : true;
         const isComplete = hasAddress && hasOptions && !hasUnassignedItems;

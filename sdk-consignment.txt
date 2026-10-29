@@ -1,0 +1,8 @@
+3851:     * const state = await service.createConsignments(consignments);
+3860:    createConsignments(consignments: ConsignmentsRequestBody, options?: RequestOptions): Promise<CheckoutSelectors>;
+3899:     * const state = await service.updateConsignment(consignment);
+3908:    updateConsignment(consignment: ConsignmentUpdateRequestBody, options?: RequestOptions): Promise<CheckoutSelectors>;
+3920:    assignItemsToAddress(consignment: ConsignmentAssignmentRequestBody, options?: RequestOptions): Promise<CheckoutSelectors>;
+3932:    unassignItemsToAddress(consignment: ConsignmentAssignmentRequestBody, options?: RequestOptions): Promise<CheckoutSelectors>;
+4429:    getUpdateConsignmentError(consignmentId?: string): Error | undefined;
+4435:    getCreateConsignmentsError(): Error | undefined;

@@ -1,0 +1,8 @@
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:3426:     * const state = await service.loadPickupOptions({ consignmentId, searchArea });
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:3428:     * console.log(state.data.getPickupOptions(consignmentId, searchArea));
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:3435:    loadPickupOptions(query: PickupOptionRequestBody): Promise<CheckoutSelectors>;
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:4528:    getPickupOptionsError(): Error | undefined;
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:4779:    getPickupOptions(consignmentId: string, searchArea: SearchArea): PickupOptionResult[] | undefined;
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:5250:    pickupMethodId: number;
+node_modules\@bigcommerce\checkout-sdk\dist\types\checkout-sdk.d.ts:8600:    getPickupOptions(consignmentId: string, searchArea: SearchArea): PickupOptionResult[] | undefined;
+node_modules\@bigcommerce\checkout-sdk\dist\types\internal-mappers.d.ts:192:    pickupMethodId: number;

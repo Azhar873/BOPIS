@@ -234,6 +234,7 @@ export const useShipping = () => {
         customer,
         customerMessage: checkout.customerMessage,
         createCustomerAddress: checkoutService.createCustomerAddress,
+        createConsignments: checkoutService.createConsignments,
         defaultShippingExpectationMessage: showDefaultShippingExpectationPrompt
             ? defaultShippingExpectationPrompt
             : undefined,

@@ -22,6 +22,7 @@ import ShippingForm from './ShippingForm';
 import ShippingHeader from './ShippingHeader';
 import { type SingleShippingFormValues } from './SingleShippingForm';
 import StripeShipping from './stripeUPE/StripeShipping';
+import PickupShipping from './PickupShipping';
 
 export interface ShippingProps {
     isBillingSameAsShipping: boolean;
@@ -36,6 +37,15 @@ export interface ShippingProps {
     navigateNextStep(isBillingSameAsShipping: boolean): void;
     setIsMultishippingMode(isMultiShippingMode: boolean): void;
 }
+
+const modeButtonStyle = (isActive: boolean): React.CSSProperties => ({
+    flex: 1,
+    padding: '12px',
+    cursor: 'pointer',
+    border: '1px solid #333',
+    background: isActive ? '#333' : '#fff',
+    color: isActive ? '#fff' : '#333',
+});
 
 function Shipping({
     cartHasChanged,
@@ -73,6 +83,34 @@ function Shipping({
         updateShippingAddress,
         updateBillingAddress,
     } = useShipping();
+
+        const [isPickupMode, setIsPickupMode] = useState(
+        () =>
+            consignments.length > 0 &&
+            consignments.every(({ selectedPickupOption }) => !!selectedPickupOption),
+    );
+
+    const handleShippingModeChange = async (pickup: boolean) => {
+        if (pickup === isPickupMode) {
+            return;
+        }
+
+        if (!pickup && consignments.some(({ selectedPickupOption }) => !!selectedPickupOption)) {
+            try {
+                setIsInitializing(true);
+                await deleteConsignments();
+            } catch (error) {
+                if (error instanceof Error) {
+                    onUnhandledError(error);
+                }
+            } finally {
+                setIsInitializing(false);
+            }
+        }
+
+        setIsPickupMode(pickup);
+    };
+    
     const {
         shipping: { restrictManualAddressEntry },
         userJourney: { hasCompanyAddressBook, hasAddressLabel },
@@ -259,18 +297,47 @@ function Shipping({
                     onMultiShippingChange={handleMultiShippingModeSwitch}
                     shouldShowMultiShipping={shouldShowMultiShipping}
                 />
-                <ShippingForm
-                    cartHasChanged={cartHasChanged}
-                    isBillingSameAsShipping={isBillingSameAsShipping}
-                    isInitialValueLoaded={!isInitializing}
-                    isMultiShippingMode={isMultiShippingMode}
-                    onCreateAccount={onCreateAccount}
-                    onMultiShippingSubmit={handleMultiShippingSubmit}
-                    onSignIn={onSignIn}
-                    onSingleShippingSubmit={handleSingleShippingSubmit}
-                    onUnhandledError={onUnhandledError}
-                    setIsMultishippingMode={setIsMultishippingMode}
-                />
+                                {!isMultiShippingMode && (
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                        <button
+                            onClick={() => {
+                                void handleShippingModeChange(false);
+                            }}
+                            style={modeButtonStyle(!isPickupMode)}
+                            type="button"
+                        >
+                            Delivery
+                        </button>
+                        <button
+                            onClick={() => {
+                                void handleShippingModeChange(true);
+                            }}
+                            style={modeButtonStyle(isPickupMode)}
+                            type="button"
+                        >
+                            Store pickup
+                        </button>
+                    </div>
+                )}
+                {isPickupMode && !isMultiShippingMode ? (
+                    <PickupShipping
+                        navigateNextStep={navigateNextStep}
+                        onUnhandledError={onUnhandledError}
+                    />
+                ) : (
+                    <ShippingForm
+                        cartHasChanged={cartHasChanged}
+                        isBillingSameAsShipping={isBillingSameAsShipping}
+                        isInitialValueLoaded={!isInitializing}
+                        isMultiShippingMode={isMultiShippingMode}
+                        onCreateAccount={onCreateAccount}
+                        onMultiShippingSubmit={handleMultiShippingSubmit}
+                        onSignIn={onSignIn}
+                        onSingleShippingSubmit={handleSingleShippingSubmit}
+                        onUnhandledError={onUnhandledError}
+                        setIsMultishippingMode={setIsMultishippingMode}
+                    />
+                )}
             </div>
         </AddressFormSkeleton>
     );

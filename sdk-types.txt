@@ -1,0 +1,19 @@
+3426:     * const state = await service.loadPickupOptions({ consignmentId, searchArea });
+3428:     * console.log(state.data.getPickupOptions(consignmentId, searchArea));
+3435:    loadPickupOptions(query: PickupOptionRequestBody): Promise<CheckoutSelectors>;
+4528:    getPickupOptionsError(): Error | undefined;
+4779:    getPickupOptions(consignmentId: string, searchArea: SearchArea): PickupOptionResult[] | undefined;
+5156:    isLoadingPickupOptions(): boolean;
+5202:    selectedPickupOption?: ConsignmentPickupOption;
+5211:    pickupOption?: ConsignmentPickupOption;
+5217:    pickupOption?: ConsignmentPickupOption;
+5233:    pickupOption?: ConsignmentPickupOption;
+5249:declare interface ConsignmentPickupOption {
+5291:    pickupOption?: ConsignmentPickupOption;
+7020:    pickupOptions: PickupOptionSelector;
+8590:declare interface PickupOptionRequestBody {
+8591:    searchArea: SearchArea;
+8595:declare interface PickupOptionResult {
+8599:declare interface PickupOptionSelector {
+8600:    getPickupOptions(consignmentId: string, searchArea: SearchArea): PickupOptionResult[] | undefined;
+8692:declare interface SearchArea {

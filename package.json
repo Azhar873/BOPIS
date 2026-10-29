@@ -142,6 +142,7 @@
     "conventional-recommended-bump": "^6.0.0",
     "core-js": "^3.45.0",
     "core-js-compat": "^3.45.0",
+    "cross-env": "^10.1.0",
     "css-loader": "^7.1.5",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.10",
